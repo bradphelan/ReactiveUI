@@ -46,9 +46,9 @@ namespace ReactiveUI.Xaml
                 proxy.Notifications.OnNext(e.NewValue);
             }
 
-            public double Value
+            public object Value
             {
-              get { return (double)GetValue(ValueProperty); }
+              get { return GetValue(ValueProperty); }
               set { SetValue(ValueProperty, value); }
             }
         }
