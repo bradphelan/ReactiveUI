@@ -91,10 +91,23 @@ namespace ReactiveUI.Xaml
             {
                 var dp = (DependencyProperty)fi.GetValue(null);
                 var dpd = DependencyPropertyDescriptor.FromProperty(dp, type);
-                Action<object> fn = x => subj.OnNext(new ObservedChange<object,object>(){PropertyName=dp.Name, Sender=dobj, Value=x});
+
+                Action<object> fn = x => subj.OnNext(new ObservedChange<object,object>()
+                    { PropertyName=dp.Name
+                    , Sender=dobj, Value=x});
+
                 var proxy = new DPChangeProxy();
-                var disposable = proxy.Notifications.Subscribe(fn);
-                System.Windows.Data.BindingOperations.SetBinding(proxy, DPChangeProxy.ValueProperty, new Binding(dp.Name){ Source = dobj});
+                var disposable = proxy.
+                    Notifications.
+                    Subscribe(fn);
+
+                System.Windows.Data.
+                    BindingOperations.
+                    SetBinding
+                        ( proxy
+                        , DPChangeProxy.ValueProperty
+                        , new Binding(dp.Name){ Source = dobj});
+
                 return Disposable.Create(() =>
                     {
                         disposable.Dispose();
